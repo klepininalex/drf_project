@@ -1,6 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 from rest_framework import viewsets, generics
+from rest_framework.permissions import AllowAny
 
 from education.models import Course, Lesson, Payment, Subscription
 from education.serializers import CourseSerializer, LessonSerializer, PaymentSerializer, SubscriptionSerializer
@@ -17,31 +18,31 @@ class CourseViewSet(viewsets.ModelViewSet):
 
 class LessonCreateAPIView(generics.CreateAPIView):
     serializer_class = LessonSerializer
-    permission_classes = [IsModerator | IsOwner]
+    permission_classes = [AllowAny]
 
 
 class LessonListAPIView(generics.ListAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    permission_classes = [IsModerator | IsOwner]
+    permission_classes = [AllowAny]
     pagination_class = EducationPaginator
 
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    permission_classes = [IsModerator | IsOwner]
+    permission_classes = [AllowAny]
 
 
 class LessonUpdateAPIView(generics.UpdateAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    permission_classes = [IsModerator | IsOwner]
+    permission_classes = [AllowAny]
 
 
 class LessonDestroyAPIView(generics.DestroyAPIView):
     queryset = Lesson.objects.all()
-    permission_classes = [IsModerator | IsOwner]
+    permission_classes = [AllowAny]
 
 
 class PaymentViewSet(viewsets.ModelViewSet):
@@ -55,6 +56,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
 class SubscriptionCreateAPIView(generics.CreateAPIView):
     serializer_class = SubscriptionSerializer
     queryset = Subscription.objects.all()
+    permission_classes = [AllowAny]
 
     def perform_create(self, serializer):
         serializer.save(is_active=True)
@@ -62,3 +64,4 @@ class SubscriptionCreateAPIView(generics.CreateAPIView):
 
 class SubscriptionDestroyAPIView(generics.DestroyAPIView):
     queryset = Subscription.objects.all()
+    permission_classes = [AllowAny]
